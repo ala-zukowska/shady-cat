@@ -1,0 +1,30 @@
+awsomeness.wav: mrpoly
+https://opengameart.org/content/menu-music
+
+Wind Of Stories.mp3: HorrorPen
+This is a track based on "The Field Of Dreams"'s melody submited by pauliuw.
+https://opengameart.org/content/winds-of-stories
+
+Lonely WItch.mp3: HorrorPen
+https://opengameart.org/content/loop-lonely-witch
+
+House in a Forest Loop.mp3: HorrorPen
+https://opengameart.org/content/loop-house-in-a-forest
+
+World Map.mp3: "World Map" by Scott Elliott
+https://opengameart.org/content/world-map-1
+
+growl: congusbongus
+Derived from Dogs growling.wav by juskiddink https://freesound.org/people/juskiddink/sounds/121565/ 
+https://opengameart.org/content/dog-growls
+
+wolfrun: congusbongus
+Derived from Wolf run.wav by sabotovat https://freesound.org/people/sabotovat/sounds/414350/ 
+https://opengameart.org/content/dog-running-0
+
+mouse-2: AntumDeluge
+https://opengameart.org/content/mouse-imitation
+Permanent link: https://opengameart.org/node/16331
+
+cat_purr_loop.wav: Kerzoven
+https://opengameart.org/content/cat-purr-meow

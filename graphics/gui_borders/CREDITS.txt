@@ -1,0 +1,4 @@
+Author: Kenney
+https://opengameart.org/content/fantasy-ui-borders
+
+Cropped into separate tiles for easier usage.

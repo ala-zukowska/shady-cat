@@ -1,0 +1,3 @@
+"[LPC] Woodshop" by bluecarrot16. OGA-BY 3.0+ / CC-BY-3.0+ / GPL v2.0+. 
+
+Tiles edited to match the game grid.

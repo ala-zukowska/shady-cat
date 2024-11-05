@@ -1,0 +1,414 @@
+@font-face {
+    font-family: "Alagard";
+    src: 
+        local("Alagard"),
+        url("font/alagard_by_pix3m-d6awiwp.ttf") format("opentype");
+}
+
+body{
+    background-color: #800080;
+}
+
+canvas {
+    vertical-align:middle;
+    /* width: 64rem;
+    height: 36rem;  */
+    background:black;
+    image-rendering: pixelated;
+}
+
+#wrapper {
+    position:absolute;
+    display:inline-block;
+    /* border:2px solid #35364B;  */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.noGameScreen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #800080;
+    top:50%;
+    left:50%; 
+    transform:translate(-50%,-50%);  
+}
+
+.imageNoGameScreen {
+    position: absolute;
+    top:40%;
+    left:50%; 
+    transform:translate(-50%,-50%);
+}
+
+.settingsWindow{
+    position:absolute;
+    width: 46rem;
+    height: 26rem;
+    background-color: #800080;    /*#FE986D #FE9F95*/
+    border:10px solid #800080;
+    top:50%;
+    left:50%; 
+    transform:translate(-50%,-50%); 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center; 
+}
+
+#settingsWindowOptions{
+    font-family: Alagard;
+    color: #FFE5B4;
+    font-size: 30px;
+    text-align: center;
+}
+
+#settingsPlayButton{
+    font-size: 60px;
+    position: absolute;
+    top:30%;
+    left:50%; 
+    transform:translate(-50%,-50%);  
+}
+
+#settingsNewGameButton{
+    font-size: 40px;
+    position: absolute;
+    top:54%;
+    left:50%; 
+    transform:translate(-50%,-50%);  
+}
+
+#settingsOptionsButton{
+    font-size: 40px;
+    position: absolute;
+    top:76%;
+    left:50%; 
+    transform:translate(-50%,-50%);  
+}
+
+#choosingWindow {
+    position:absolute;
+    width: 46rem;
+    height: 26rem;
+    background-color: #FFE5B4; /*#FE986D #FE9F95*/
+    border:10px solid #FFE5B4;
+    top:50%;
+    left:50%; 
+    transform:translate(-50%,-50%); 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#choosingText {
+    font-family: Alagard;
+    color: #800080;
+    font-size: 60px;
+    text-align: center;
+    width: 100%;
+}
+
+.generalButton {
+    background-color: #800080;
+    padding: 2%;
+    border: 2px solid #800080; 
+    cursor: pointer;
+    font-family: Alagard;
+    color: #FFE5B4;
+    font-size: 50px;
+}
+
+.settingsRange{
+    accent-color: #FE9F95;
+    background-color: #cccccc;
+}
+
+#settingsKeyboard {
+    padding: 2%;
+    font-size: 40px;
+    margin: 30px;
+    
+}
+
+#settingsBigText {
+    font-size: 50px;
+    margin: 30px;
+}
+
+#startButton {
+    position: absolute;
+    top:70%;
+    left:50%; 
+    transform:translate(-50%,-50%);  
+}
+
+#settingsButtonOnGameOver {
+    font-size: 40px;
+    position: absolute;
+    top:85%;
+    left:50%; 
+    transform:translate(-50%,-50%);  
+}
+
+.roundButton {
+    width:50px;
+    height:50px;
+    border-radius: 50%;
+    border:none;
+    cursor: pointer;
+}
+
+.squareButton {
+    border:none;
+    cursor: pointer;
+}
+
+#backButton {
+    background: url(graphics/icojoy_icons/backicon.png);
+    background-size: 54px;
+    background-repeat: no-repeat;
+    position: absolute;
+    bottom: 30px;
+    left:60px; 
+    width:54px;
+    height:54px;
+}
+
+#xButton {
+    background: url(graphics/icojoy_icons/xicon.png);
+    background-size: 36px;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 50px;
+    right:50px; 
+    width:36px;
+    height:36px;
+}
+
+#homeButton {
+    background: url(graphics/gui_pack/white_home.png);
+    background-size: 50px;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 33px;
+    left:26px; 
+    transition: 0.7s all;
+}
+
+#homeButton:hover {
+    background: url(graphics/gui_pack/white_home.png);
+    background-color: rgba(118, 118, 118, 0.51);
+    background-size: 50px;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 33px;
+    left:26px; 
+    width:50px;
+    height:125px;
+    border-radius: 130px;
+    transition-delay: 0s;
+
+
+}
+
+#settingsButton {
+    background: url(graphics/gui_pack/white_config.png);
+    background-size: 50px;
+    position: absolute;
+    top: 108px;
+    left:26px; 
+    display: none;
+
+}
+
+#soundEffectsButton {
+    background: url(graphics/gui_pack/white_soundOn.png);
+    background-size: contain;
+    position: absolute;
+    top: 22%;
+    left:95%; 
+    transform:translate(-50%,-50%);
+
+}
+
+#soundEffectsButtonOff {
+    background: url(graphics/gui_pack/white_soundOff.png);
+    background-size: contain;
+    position: absolute;
+    top: 22%;
+    left:95%; 
+    transform:translate(-50%,-50%);
+
+}
+
+#musicButton {
+    background: url(graphics/gui_pack/white_musicOn.png);
+    background-size: contain;
+    position: absolute;
+    top: 10%;
+    left:95%; 
+    transform:translate(-50%,-50%);
+
+}
+
+#musicButtonOff {
+    background: url(graphics/gui_pack/white_musicOff.png);
+    background-size: contain;
+    position: absolute;
+    top: 10%;
+    left:95%; 
+    transform:translate(-50%,-50%);
+
+}
+
+#gameOver {
+    font-family: Alagard;
+    color: #FFE5B4;
+    width: 100%;
+}
+
+
+.bigWindowBorder {
+    padding: 40px; 
+    background:
+        url(graphics/gui_borders/bigwindowborder/lefttop.png) top left no-repeat,
+        url(graphics/gui_borders/bigwindowborder/righttop.png) top right no-repeat,
+        url(graphics/gui_borders/bigwindowborder/leftdown.png) bottom left no-repeat,
+        url(graphics/gui_borders/bigwindowborder/rightdown.png) bottom right no-repeat,
+        url(graphics/gui_borders/bigwindowborder/top.png) top left repeat-x,
+        url(graphics/gui_borders/bigwindowborder/down.png) bottom left repeat-x,
+        url(graphics/gui_borders/bigwindowborder/left.png) top left repeat-y,
+        url(graphics/gui_borders/bigwindowborder/right.png) top right repeat-y;
+    background-color: #800080;         
+}
+
+.bigWindowBorderPurple {
+    padding: 40px; 
+    background:
+        url(graphics/gui_borders/bigwindowborder/purple/lefttop.png) top left no-repeat,
+        url(graphics/gui_borders/bigwindowborder/purple/righttop.png) top right no-repeat,
+        url(graphics/gui_borders/bigwindowborder/purple/leftdown.png) bottom left no-repeat,
+        url(graphics/gui_borders/bigwindowborder/purple/rightdown.png) bottom right no-repeat,
+        url(graphics/gui_borders/bigwindowborder/purple/top.png) top left repeat-x,
+        url(graphics/gui_borders/bigwindowborder/purple/down.png) bottom left repeat-x,
+        url(graphics/gui_borders/bigwindowborder/purple/left.png) top left repeat-y,
+        url(graphics/gui_borders/bigwindowborder/purple/right.png) top right repeat-y;         
+}
+
+.buttonBorder {
+    padding: 20px; 
+    background:
+        url(graphics/gui_borders/buttonborder/lefttop.png) top left no-repeat,
+        url(graphics/gui_borders/buttonborder/righttop.png) top right no-repeat,
+        url(graphics/gui_borders/buttonborder/leftdown.png) bottom left no-repeat,
+        url(graphics/gui_borders/buttonborder/rightdown.png) bottom right no-repeat,
+        url(graphics/gui_borders/buttonborder/top.png) top left repeat-x,
+        url(graphics/gui_borders/buttonborder/down.png) bottom left repeat-x,
+        url(graphics/gui_borders/buttonborder/left.png) top left repeat-y,
+        url(graphics/gui_borders/buttonborder/right.png) top right repeat-y;         
+}
+
+.cat {
+    padding: 12px; 
+    background:
+        url(graphics/gui_borders/catborder/lefttop.png) top left no-repeat,
+        url(graphics/gui_borders/catborder/righttop.png) top right no-repeat,
+        url(graphics/gui_borders/catborder/leftdown.png) bottom left no-repeat,
+        url(graphics/gui_borders/catborder/rightdown.png) bottom right no-repeat,
+        url(graphics/gui_borders/catborder/top.png) top left repeat-x,
+        url(graphics/gui_borders/catborder/down.png) bottom left repeat-x,
+        url(graphics/gui_borders/catborder/left.png) top left repeat-y,
+        url(graphics/gui_borders/catborder/right.png) top right repeat-y;         
+    background-color: azure;
+    display: inline;
+    margin: 1%;
+    width: 9rem;
+    height: 9rem;
+    cursor: pointer;
+}
+
+/* source: Frank Eno https://codepen.io/frankeno/pen/QWmmxQb */
+.cursor{
+    position: relative;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding: 10px;
+    border-right: 2px solid #FFE5B4;
+    font-size: 80px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    transform: translateY(-50%);    
+}
+.typewriter-animation {
+  animation: 
+    typewriter 5s steps(30) 1s 1 normal both, 
+    blinkingCursor 500ms steps(50) infinite normal;
+}
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 60%; }
+}
+@keyframes blinkingCursor{
+  from { border-right-color: #FFE5B4; }
+  to { border-right-color: transparent; }
+}
+
+/* source: https://www.w3schools.com/howto/howto_css_switch.asp */
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    border-radius: 34px;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #cccccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    border-radius: 50%;
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #FE9F95; /* #FE986D #FE9F95* */
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #FE9F95;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }

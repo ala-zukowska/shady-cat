@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Gamey</title>
+        <link rel="icon" type="image/x-icon" href="/graphics/cat/favicon.ico">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <audio id="awesomeness" loop>
+            <source src="music/awesomeness.wav" type="audio/wav">
+        </audio>
+        <audio id="lonelyWitch" loop>
+            <source src="music/Lonely Witch.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="windsOfStories" loop>
+            <source src="music/Winds Of Stories.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="growl">
+            <source src="music/growl.ogg" type="audio/ogg">
+        </audio>
+        <audio id="wolfRun" loop>
+            <source src="music/wolfrun.ogg" type="audio/ogg">
+        </audio>
+        <audio id="mouse">
+            <source src="music/mouse-2.wav" type="audio/wav">
+        </audio>
+        <audio id="catPurr" loop>
+            <source src="music/cat_purr_loop.wav" type="audio/wav">
+        </audio>
+        <img id="catSprite" src = "graphics/cat/PNG/cat.png" hidden>
+        <img id="mouseSprite" src = "graphics/rodent-1.0/PNG/32x32/mouse.png" hidden>
+        <img id="ratSprite" src = "graphics/rodent-1.0/PNG/32x32/rat.png" hidden>
+        <img id="wolfSprite" src = "graphics/wolf/wolfsheet1_edited.png" hidden>
+        <img id="map0" src = "graphics/map0.png" hidden>
+        <img id="map1" src = "graphics/map1.png" hidden>
+        <img id="tileset2" src = "graphics/tileset/tileset2.png" hidden>
+        <img id="blacksmith" src = "graphics/lpc-blacksmith/EDITED_objects_blacksmith.png" hidden>
+        <img id="woodshop" src = "graphics/lpc-woodshop/EDITED_woodshop.png" hidden>
+        <img id="lightSource" src = "graphics/light/edited_light.png" hidden>
+        <img id="medieval" src = "graphics/decoration_medieval/castle_edited.png" hidden>
+        <img id="baseAssets" src = "graphics/LPC Base Assets/edited.png" hidden>
+        <img id="hearts" src = "graphics/pixel-hearts/Sprite Sheet.png" hidden>
+        <div id="wrapper">
+            <button class="roundButton" id = "homeButton" onclick="takeHome()" onmouseenter="showSettingsButton()" onmouseleave="hideSettingsButton()" ></button>
+            <button class="roundButton" id = "settingsButton" onclick="showSettingsWindow()" onmouseenter="showSettingsButton()" onmouseleave="hideSettingsButton()"></button>
+            <button class="roundButton" id = "musicButton" onclick="toggleMusic()"></button>
+            <button class="roundButton" id = "soundEffectsButton" onclick="toggleSoundEffects()"></button>
+            <canvas id="maincanvas" width="1024" height="576"></canvas>
+            <div class="bigWindowBorderPurple" id="choosingWindow">
+                <div id="choosingText">Choose your cat:</div>
+                <canvas class="cat" id="chooseCatWhite" width="100" height="100"></canvas>
+                <canvas class="cat" id="chooseCatOrange"width="100" height="100"></canvas>
+                <canvas class="cat" id="chooseCatBrown"width="100" height="100"></canvas>
+                <canvas class="cat" id="chooseCatBlack"width="100" height="100"></canvas>
+                <button class="squareButton" id = "xButton" style="background: url(graphics/icojoy_icons/xiconpurple.png); background-size: 36px;" onclick="choosingWindowExit()"></button>
+            </div>
+            <div class="noGameScreen" id="gameOver" style="display: none">
+                <div class="cursor typewriter-animation" >GAME OVER</div>
+                <img class="imageNoGameScreen" src="graphics/cat/sleep.gif">
+                <button class="generalButton" id="startButton" onclick="takeHome()">Try again</button>
+                <button class="generalButton" id="settingsButtonOnGameOver" onclick="settingsButtonOnGameOverOnclick()">Settings</button>
+            </div>
+            <div class="noGameScreen" id="loadingScreen">
+                <img class="imageNoGameScreen" src="graphics/cat/animation.gif">
+                <button class="generalButton" id="startButton" onclick="startButtonOnclick()">Start game!</button>
+            </div>
+            <div class="bigWindowBorder settingsWindow" id="settingsWindow" style="display: none">
+                <button class="generalButton buttonBorder" id="settingsPlayButton" onclick="hideSettingsWindow()">Continue</button>
+                <button class="generalButton buttonBorder" id="settingsNewGameButton" onclick="takeHome()">New game</button>
+                <button class="generalButton buttonBorder" id="settingsOptionsButton" onclick="showOptions()">Options</button>
+                <button class="squareButton" id = "xButton" onclick="xSettingsWindow()"></button>
+            </div>
+            <div class="bigWindowBorder settingsWindow" id="settingsWindowOptions" style="display: none">
+                <p id="settingsBigText">Audio</p>
+                <label for="musicRange">Music</label>
+                <input type="range" class="settingsRange" id="musicRange" oninput="changeMusicVolume()">
+                <br>
+                <label for="soundRange">Sound effects</label>
+                <input type="range" class="settingsRange" id="soundRange" oninput="changeSoundEffectsVolume()">
+                <br>
+                <p id="settingsBigText">View</p>
+                <label for="fullScreenToggle">Full screen</label>
+                <label class="switch">
+                    <input id="fullScreenToggle" type="checkbox" onchange="settingsFullScreen()">
+                    <span class="slider"></span>
+                </label>
+                <br>
+                <button class="generalButton buttonBorder" id="settingsKeyboard" onclick="controlsButton()">Controls</button><br>
+                <button class="squareButton" id = "backButton" onclick="goBackSettingsWindowOptions()"></button>
+                <button class="squareButton" id = "xButton" onclick="xSettingsWindowOptions()"></button>
+            </div>
+            <div class="bigWindowBorder settingsWindow" id="settingsWindowControls" style="display: none">
+                <img src="graphics/keyboard/controls.png" style="width: 100%">
+                <button class="squareButton" id = "backButton" onclick="goBackSettingsWindowControls()"></button>
+                <button class="squareButton" id = "xButton" onclick="xSettingsWindowControls()"></button>
+            </div>
+            
+            
+        </div>
+        <script src="utils.js"></script>
+        <script src="debug.js"></script>
+        <script src="objects.js"></script>
+        <script src="objectsMapTiles.js"></script>
+        <script src="objectsBlacksmith.js"></script>
+        <script src="objectsBigFurnace.js"></script>
+        <script src="objectsSmallFurnace.js"></script>
+        <script src="objectWoodshop.js"></script>
+        <script src="objectsDecorations.js"></script>
+        <script src="map_loader.js"></script>
+        <script src="code.js"></script>
+    </body>
+</html>
