@@ -57,6 +57,6 @@ const utils = {
         }
         
         document.getElementById("wrapper").appendChild(newButton)
-    }
+    },
 }
 

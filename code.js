@@ -714,12 +714,17 @@ function game(scene, parameters){
     }
 
     const movementStack = []
+    let isRunPressed = false;
 
     function handleKeyUp(event) {
-        const multiplier = event.shiftKey ? 3.5 : 1.0;
+        let controlsKeys = parameters.controls;
+        if (event.code == controlsKeys.run){
+            isRunPressed = false;
+        }
+        const multiplier = isRunPressed ? 3.5 : 1.0;
         cat.velocityScale = multiplier;
         cat.animationSpeed = multiplier;
-        if (["KeyW", "KeyS", "KeyA", "KeyD"].includes(event.code)) {
+        if ([controlsKeys.up, controlsKeys.down, controlsKeys.left, controlsKeys.right].includes(event.code)) {
             utils.removeFromArray(movementStack, event.code);
             if (movementStack.length == 0) {
                 cat.currentAnimation = "idle";
@@ -729,24 +734,28 @@ function game(scene, parameters){
             else {
                 handleMovement(movementStack[movementStack.length - 1]);
             }
-        } else if (event.code == "Equal"){
+        } else if (event.code == controlsKeys.debug){
             dbg.toggle();
-        } else if (event.code == "KeyF"){
+        } else if (event.code == controlsKeys.fullScreen){
             toggleFullscreen(event.code);
-        } else if (event.code == "KeyM"){
+        } else if (event.code == controlsKeys.muteMusic){
             toggleMusic();
-        } else if (event.code == "KeyN"){
+        } else if (event.code == controlsKeys.muteSound){
             toggleSoundEffects();
         } 
     }
 
     function handleKeyDown(event) {
+        let controlsKeys = parameters.controls;
         let key = event.code;
-        const multiplier = event.shiftKey ? 3.5 : 1.0;
+        if (key == controlsKeys.run){
+            isRunPressed = true;
+        }
+        const multiplier = isRunPressed ? 3.5 : 1.0;
         cat.velocityScale = multiplier;
         cat.animationSpeed = multiplier;
         handleMovement(key);
-        if (["KeyW", "KeyS", "KeyA", "KeyD"].includes(key)) {
+        if ([controlsKeys.up, controlsKeys.down, controlsKeys.left, controlsKeys.right].includes(key)) {
             if (!movementStack.includes(key)) {
                 movementStack.push(key);
             }
@@ -763,22 +772,22 @@ function game(scene, parameters){
 
     function handleMovement (key) {
         const speed = 0.6;
-        if (key == "KeyW") {
+        if (key == parameters.controls.up) {
             cat.currentAnimation = "walkUp";
             cat.velocityY = -speed;
             cat.velocityX = 0;
         }
-        else if (key == "KeyS") {
+        else if (key == parameters.controls.down) {
             cat.currentAnimation = "walkDown";
             cat.velocityY = speed;
             cat.velocityX = 0;
         }
-        else if (key == "KeyA") {
+        else if (key == parameters.controls.left) {
             cat.currentAnimation = "walkLeft";
             cat.velocityY = 0;
             cat.velocityX = -speed;
         }
-        else if (key == "KeyD") {
+        else if (key == parameters.controls.right) {
             cat.currentAnimation = "walkRight";
             cat.velocityY = 0;
             cat.velocityX = speed;
@@ -963,6 +972,17 @@ const mainGameParameters = {
     backgroundColour: "black",
     canvas: document.getElementById("maincanvas"),
     unitsInWidth: 10,
+    controls: {
+        up: "KeyW", 
+        down: "KeyS", 
+        right: "KeyD", 
+        left: "KeyA", 
+        run: "ShiftLeft", 
+        debug: "Equal", 
+        fullScreen: "KeyF", 
+        muteMusic: "KeyM",
+        muteSound: "KeyN",
+    }
 }
 
 const mainGame = game(mainGameScene, mainGameParameters);
@@ -984,11 +1004,64 @@ window.onload = function() {
     if (reloading) {
         sessionStorage.removeItem("reloading");
         document.getElementById("settingsWindow").style.display = "block";
+        document.getElementById("settingsWindowControls").style.display = "none";
     }
 }
 
+function ContorlsOnclick(id){
+    let rectangles = [
+        "AltRight","Backslash","Backspace","CapsLock","ControlLeft","ControlRight","Delete","End",
+        "Enter","Escape","Home","Insert","NumLock","PageDown","PageUp","Pause","PrintScreen","ScrollLock",
+        "ShiftLeft","ShiftRight","Space","Tab","AltLeft"
+    ];
+    document.getElementById(id).addEventListener("keyup", (event) => {
+        if (rectangles.includes(event.code)){
+            document.getElementById(id).style.backgroundImage="url(graphics/keyboard/eventcode/rectangle/" + event.code + ".png)";
+            document.getElementById(id).className = "keyboardRectangle"; 
+        } else {
+            document.getElementById(id).style.backgroundImage="url(graphics/keyboard/eventcode/" + event.code + ".png)";
+            document.getElementById(id).className = "keyboardSquare";
+        }
+        
+        switch(id){
+            case 'controlsUp':
+                mainGameParameters.controls.up = event.code;
+                break; 
+            case 'controlsDown':
+                mainGameParameters.controls.down = event.code;
+                break; 
+            case 'controlsLeft':
+                mainGameParameters.controls.left = event.code;
+                break;
+            case 'controlsRight':
+                mainGameParameters.controls.right = event.code;
+                break; 
+            case 'controlsRun':
+                mainGameParameters.controls.run = event.code;
+                break; 
+            case 'controlsDbg':
+                mainGameParameters.controls.debug = event.code;
+                break; 
+            case 'controlsMusic':
+                mainGameParameters.controls.muteMusic = event.code;
+                mainGame.toggleMusic();
+                break;
+            case 'controlsSound':
+                mainGameParameters.controls.muteSound = event.code;
+                mainGame.toggleSoundEffects();
+                break; 
+            case 'controlsFullscreen':
+                mainGameParameters.controls.fullScreen = event.code;
+                break; 
+            default:
+                console.log("Invalid id", id);
+        }
+        
+    });
+}
+
 function startButtonOnclick() {
-    loadingScreen.style.display = "none";
+    document.getElementById("loadingScreen").style.display = "none";
     mainGameScene.audio.chooseWindow.play();
     mainGameScene.audio.chooseWindow.volume = 0.5;
     }

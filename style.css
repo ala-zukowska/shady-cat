@@ -26,6 +26,27 @@ canvas {
     transform: translate(-50%, -50%);
 }
 
+#settingsWindowControls{
+    font-family: Alagard;
+    color: #FFE5B4;
+    font-size: 30px;
+    line-height: 20px;
+    text-align: left;
+}
+
+#wrapperLeft {
+    width: 40%;
+    height: 100%;
+    padding-left: 5%;
+}
+
+#wrapperRight {
+    width: 45%;
+    height: 100%;
+    left: 50%;
+    padding-right: 5%;
+}
+
 .noGameScreen {
     position: absolute;
     width: 100%;
@@ -365,15 +386,15 @@ canvas {
     display: inline-block;
     width: 60px;
     height: 34px;
-  }
+}
   
-  .switch input {
+.switch input {
     opacity: 0;
     width: 0;
     height: 0;
-  }
+}
 
-  .slider {
+.slider {
     border-radius: 34px;
     position: absolute;
     cursor: pointer;
@@ -384,9 +405,9 @@ canvas {
     background-color: #cccccc;
     -webkit-transition: .4s;
     transition: .4s;
-  }
-  
-  .slider:before {
+}
+
+.slider:before {
     border-radius: 50%;
     position: absolute;
     content: "";
@@ -397,18 +418,139 @@ canvas {
     background-color: white;
     -webkit-transition: .4s;
     transition: .4s;
-  }
-  
-  input:checked + .slider {
+}
+
+input:checked + .slider {
     background-color: #FE9F95; /* #FE986D #FE9F95* */
-  }
-  
-  input:focus + .slider {
+}
+
+input:focus + .slider {
     box-shadow: 0 0 1px #FE9F95;
-  }
-  
-  input:checked + .slider:before {
+}
+
+input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
-  }
+}
+
+.keyboardSquare{
+    width:80px;
+    height:80px;
+    border-radius: 27.5%;
+    border:none;
+    cursor:pointer;
+    transition: all 1s ease-out;
+}
+
+.keyboardSquare:hover{
+    background: rgba(0, 0, 0, 0.4) !important;
+    width:80px;
+    height:80px;
+    border-radius: 27.5%;
+    transition: all 1s ease-out;
+}
+
+.keyboardSquare:focus{
+    background-color: rgba(0, 0, 0, 0.4) !important;
+    width:80px;
+    height:80px;
+    border-radius: 27.5%;
+    outline-color: #FFE5B4;
+
+}
+
+.keyboardRectangle{
+    width:100px;
+    height:75px;
+    border-radius:24%;
+    border:none;
+    cursor:pointer;
+    transition: all 1s ease-out;
+}
+
+.keyboardRectangle:hover{
+    background: rgba(0, 0, 0, 0.4) !important;
+    width:100px;
+    height:75px;
+    border-radius: 24%;
+    transition: all 1s ease-out;
+}
+
+.keyboardRectangle:focus{
+    background-color: rgba(0, 0, 0, 0.4) !important;
+    width:100px;
+    height:75px;
+    border-radius: 24%;
+    outline-color: #FFE5B4;
+
+}
+
+#controlsUp{
+    background: url(graphics/keyboard/eventcode/KeyW.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    margin-left: 27%;
+}
+
+#controlsDown{
+    background: url(graphics/keyboard/eventcode/KeyS.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+#controlsLeft{
+    background: url(graphics/keyboard/eventcode/KeyA.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+#controlsRight{
+    background: url(graphics/keyboard/eventcode/KeyD.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+#controlsRun{
+    background: url(graphics/keyboard/eventcode/rectangle/ShiftLeft.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    transform: translate(5%,40%);
+}
+
+#controlsDbg{
+    background: url(graphics/keyboard/eventcode/Equal.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    transform: translate(5%,40%);
+}
+
+#controlsMusic{
+    background: url(graphics/keyboard/eventcode/KeyM.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    transform: translate(5%,40%);
+}
+
+#controlsSound{
+    background: url(graphics/keyboard/eventcode/KeyN.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    transform: translate(5%,40%);
+}
+
+#controlsFullscreen{
+    background: url(graphics/keyboard/eventcode/KeyF.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    transform: translate(5%,40%);
+}
