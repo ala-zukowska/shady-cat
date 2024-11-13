@@ -1,47 +1,66 @@
 function mapLoader(gameScene){
-    function load(mapName){
-        let mapImage = document.getElementById(mapName);
-        let mapWidth = mapImage.width;
-        let mapHeight = mapImage.height;
-        let mapCanvas = new OffscreenCanvas(mapWidth, mapHeight);
-        let ctx = mapCanvas.getContext("2d");
-        ctx.drawImage(mapImage, 0, 0);
-        let imageData = ctx.getImageData(0,0,mapWidth,mapHeight);
-        let hexPixels = [];
-        for (let i=0; i<mapHeight*mapWidth; i++){
-            let r = imageData.data[i*4].toString(16).padStart(2,"0");
-            let g = imageData.data[i*4 + 1].toString(16).padStart(2,"0");
-            let b = imageData.data[i*4 + 2].toString(16).padStart(2,"0");
-            let hexPixel = r + g + b;
-            hexPixels.push(hexPixel);
-        }
+    function loadMapImage(mapName){
+        return new Promise((resolve, reject) => {
+            function tryToLoadImage(){
+                let mapImage = document.getElementById(mapName);
+                let mapWidth = mapImage.width;
+                let mapHeight = mapImage.height;
+                if (mapHeight==0 || mapWidth==0){
+                    console.log("Map not loaded. Retrying...");
+                    setTimeout(tryToLoadImage,100);
+                    return;
+                }
 
-        const getPixel = function (x, y){
-            if (x<0 || x >= mapWidth || y < 0 || y >= mapHeight){
-                return "ffffff";
+                let mapCanvas = new OffscreenCanvas(mapWidth, mapHeight);
+                let ctx = mapCanvas.getContext("2d");
+                ctx.drawImage(mapImage, 0, 0);
+                let imageData = ctx.getImageData(0,0,mapWidth,mapHeight);
+                let hexPixels = [];
+                for (let i=0; i<mapHeight*mapWidth; i++){
+                    let r = imageData.data[i*4].toString(16).padStart(2,"0");
+                    let g = imageData.data[i*4 + 1].toString(16).padStart(2,"0");
+                    let b = imageData.data[i*4 + 2].toString(16).padStart(2,"0");
+                    let hexPixel = r + g + b;
+                    hexPixels.push(hexPixel);
+                }
+                if (hexPixels.some(p => p != "000000")){
+                    resolve({hexPixels,mapWidth,mapHeight});
+                } else {
+                    console.log("Pixels not loaded. Retrying...");
+                    setTimeout(tryToLoadImage,100);
+                }
             }
-            let i = y * mapWidth + x;
-            return hexPixels[i];
-
-        }
-
-        const getNeighbour = function (x,y){
-            return {top: getPixel(x, y-1), bottom: getPixel(x, y+1), left: getPixel(x-1, y), right: getPixel(x+1, y),}
-        }
-
-        for (let x=0; x<mapWidth; x++) {
-            for (let y=0; y<mapHeight; y++){
-                let {top,bottom,left,right} = getNeighbour(x,y);
-                let current = getPixel(x,y);
-                createObject(x,y,current,top,bottom,left,right);
-            }
-        }
-
-
+            tryToLoadImage();
+        })
     }
 
-    function createObject(x,y,current,top,bottom,left,right){
-        switch (current){
+    function load(mapName){
+        return loadMapImage(mapName).then(({hexPixels,mapWidth,mapHeight}) => {
+            const getPixel = function (x, y){
+                if (x<0 || x >= mapWidth || y < 0 || y >= mapHeight){
+                    return "ffffff";
+                }
+                let i = y * mapWidth + x;
+                return hexPixels[i];
+
+            }
+
+            const getNeighbour = function (x,y){
+                return {top: getPixel(x, y-1), bottom: getPixel(x, y+1), left: getPixel(x-1, y), right: getPixel(x+1, y),}
+            }
+
+            for (let x=0; x<mapWidth; x++) {
+                for (let y=0; y<mapHeight; y++){
+                    let {top,bottom,left,right} = getNeighbour(x,y);
+                    let pixel = getPixel(x,y);
+                    createObject(x,y,pixel,top,bottom,left,right);
+                }
+            }
+        })
+    }
+
+    function createObject(x,y,pixel,top,bottom,left,right){
+        switch (pixel){
 
             //MAP TILES:
             case "000000": //wall BOTTOM, black
@@ -630,7 +649,7 @@ function mapLoader(gameScene){
                 break;
             
             default:
-                console.log("Invalid colour in map", current, "x:", x, "y:", y);
+                console.log("Invalid colour in map", pixel, "x:", x, "y:", y);
         }
 
     }

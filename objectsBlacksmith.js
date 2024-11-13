@@ -446,7 +446,7 @@ const anvilSmall = {
     velocityY: 0,
     size: 1,
     collisionBox: {x1: 10/48, y1: 27/48, x2: 42/48, y2: 31/48}, 
-    lineOfSightBox: { idle: {x1: 10/48, y1: 17/48, x2: 42/48, y2: 38/48}},
+    lineOfSightBox: { idle: {x1: 0, y1: 0, x2: 0, y2: 0}},
     zOrder: 1,
 };
 

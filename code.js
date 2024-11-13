@@ -469,6 +469,9 @@ function game(scene, parameters){
         }
         for (let object of scene.objects){
             if (object.type == "light") {
+                if (cat==undefined){
+                    console.log("cat undefined")
+                }
                 if (utils.isObjectInBoundries(object, cat.x-10, cat.y-7, cat.x+10, cat.y+7)){
                     updateLightNoise(object);
                     let lightPolygon = computeLightPolygon({x: object.x + object.noiseParameters[0].value, y: object.y + object.noiseParameters[1].value, size: object.size});
@@ -963,41 +966,182 @@ const mainGameScene = {
     playerLives: 10,
 };
 
-const mainGameParameters = {
-    setup: function(spawnObject){
-        mapLoader(mainGameScene).load("map1");
-        let cat = mainGameScene.objects.find(obj => obj.type == "player");
-        mainGameScene.objects.push(mainGameScene.cameraLight);
-    },
-    backgroundColour: "black",
-    canvas: document.getElementById("maincanvas"),
-    unitsInWidth: 10,
-    controls: {
-        up: "KeyW", 
-        down: "KeyS", 
-        right: "KeyD", 
-        left: "KeyA", 
-        run: "ShiftLeft", 
-        debug: "Equal", 
-        fullScreen: "KeyF", 
-        muteMusic: "KeyM",
-        muteSound: "KeyN",
+        
+const mainGameParametersPromise = mapLoader(mainGameScene).load("map1").then(()=>{
+    return ({
+        setup: function(spawnObject){
+            mainGameScene.objects.push(mainGameScene.cameraLight);
+        },
+        backgroundColour: "black",
+        canvas: document.getElementById("maincanvas"),
+        unitsInWidth: 10,
+        controls: {
+            up: "KeyW", 
+            down: "KeyS", 
+            right: "KeyD", 
+            left: "KeyA", 
+            run: "ShiftLeft", 
+            debug: "Equal", 
+            fullScreen: "KeyF", 
+            muteMusic: "KeyM",
+            muteSound: "KeyN",
+        }
+    })
+})
+
+const mainGamePromise = mainGameParametersPromise.then((mainGameParameters) => (
+    {
+        game: game(mainGameScene, mainGameParameters), 
+        parameters: mainGameParameters
     }
-}
-
-const mainGame = game(mainGameScene, mainGameParameters);
-
-addEventListener("keydown", (event) => {
-    mainGame.handleKeyDown(event);
-    
-});
-
-addEventListener("keyup", (event) => {
-    mainGame.handleKeyUp(event);
-    
-});
+));
+mainGamePromise.then(({game,parameters}) => onMainGameReady(game,parameters));
+function onMainGameReady(mainGame, mainGameParameters){
+    addEventListener("keyup", keyUp);
   
-addEventListener("fullscreenchange", mainGame.handleFullscreenChange);
+    addEventListener("fullscreenchange", mainGame.handleFullscreenChange);
+
+    addEventListener("keydown", (event) => {
+        mainGame.handleKeyDown(event);
+    });
+
+    document.getElementById("maincanvas").addEventListener("mousemove", (e) => {
+        mainGame.handleMouseMove(e)
+    });
+
+    document.getElementById("chooseCatWhite").onclick = function() {
+        mainGame.chooseCat("white");
+        choosingWindowExit();
+    };
+
+    document.getElementById("chooseCatOrange").onclick = function() {
+        mainGame.chooseCat("orange");
+        choosingWindowExit();
+    };
+
+    document.getElementById("chooseCatBrown").onclick = function() {
+        mainGame.chooseCat("brown");
+        choosingWindowExit();
+    };
+
+    document.getElementById("chooseCatBlack").onclick = function() {
+        mainGame.chooseCat("black");
+        choosingWindowExit();
+    };
+
+    document.getElementById("musicButton").onclick = function (){
+        mainGame.toggleMusic();
+    }
+
+    document.getElementById("soundEffectsButton").onclick = function (){
+        mainGame.toggleSoundEffects();
+    }
+
+    document.getElementById("fullScreenToggle").onchange = function (){
+        mainGame.toggleFullscreen();
+    }
+
+    function keyUp(event){
+        mainGame.handleKeyUp(event);
+    }
+
+    document.getElementById("startButton").onclick = function () {
+        document.getElementById("loadingScreen").style.display = "none";
+        mainGameScene.audio.chooseWindow.play();
+        mainGameScene.audio.chooseWindow.volume = 0.5;
+    }
+
+    const controlsIds=['controlsUp','controlsDown','controlsLeft','controlsRight',
+        'controlsRun','controlsDbg','controlsMusic','controlsSound','controlsFullscreen'];
+    controlsIds.forEach(id => {
+        let element = document.getElementById(id);
+        element.onclick = () => ContorlsOnclick(id);
+        element.addEventListener("focusout", () => controlsOnFocusOut());
+    });
+
+    function controlsOnFocusOut(){
+        addEventListener("keyup", keyUp);
+    }
+
+    function ContorlsOnclick(id){
+        let rectangles = [
+            "AltRight","Backslash","Backspace","CapsLock","ControlLeft","ControlRight","Delete","End",
+            "Enter","Escape","Home","Insert","NumLock","PageDown","PageUp","Pause","PrintScreen","ScrollLock",
+            "ShiftLeft","ShiftRight","Space","Tab","AltLeft"
+        ];
+        removeEventListener("keyup", keyUp);
+        document.getElementById(id).addEventListener("keyup", (event) => {
+            if (rectangles.includes(event.code)){
+                document.getElementById(id).style.backgroundImage="url(graphics/keyboard/eventcode/rectangle/" + event.code + ".png)";
+                document.getElementById(id).className = "keyboardRectangle"; 
+            } else {
+                document.getElementById(id).style.backgroundImage="url(graphics/keyboard/eventcode/" + event.code + ".png)";
+                document.getElementById(id).className = "keyboardSquare";
+            }
+            switch(id){
+                case 'controlsUp':
+                    mainGameParameters.controls.up = event.code;
+                    break; 
+                case 'controlsDown':
+                    mainGameParameters.controls.down = event.code;
+                    break; 
+                case 'controlsLeft':
+                    mainGameParameters.controls.left = event.code;
+                    break;
+                case 'controlsRight':
+                    mainGameParameters.controls.right = event.code;
+                    break; 
+                case 'controlsRun':
+                    mainGameParameters.controls.run = event.code;
+                    break; 
+                case 'controlsDbg':
+                    mainGameParameters.controls.debug = event.code;
+                    break; 
+                case 'controlsMusic':
+                    mainGameParameters.controls.muteMusic = event.code;
+                    break;
+                case 'controlsSound':
+                    mainGameParameters.controls.muteSound = event.code;
+                    break; 
+                case 'controlsFullscreen':
+                    mainGameParameters.controls.fullScreen = event.code;
+                    break; 
+                default:
+                    console.log("Invalid id", id);
+            }
+            
+        });
+    }
+
+    document.getElementById("soundRange").oninput = function (){
+        let musicValue = document.getElementById("soundRange").value;
+        for (let object of mainGameScene.objects){
+            if (object.type == "prey"){
+                object.sound.volume = musicValue/100;
+            } else if (object.type == "predator"){
+                object.sound.volume = musicValue/100;
+                object.sound2.volume = musicValue/100;
+            }
+        }
+        if (musicValue==0){
+            utils.toggleButtonById("soundEffectsButton", "soundEffectsButtonOff",  {"onclick": "toggleSoundEffects()"});
+        } else {
+            utils.toggleButtonById("soundEffectsButtonOff","soundEffectsButton", {"onclick": "toggleSoundEffects()"});
+        }
+    }
+
+    document.getElementById("musicRange").oninput = function (){
+        let musicValue = document.getElementById("musicRange").value;
+        mainGameScene.audio.mainTheme.volume = musicValue/100;
+        mainGameScene.audio.chooseWindow.volume = musicValue/100;
+        if (musicValue==0){
+            utils.toggleButtonById("musicButton", "musicButtonOff", {"onclick": "toggleMusic()"});
+        } else {
+            utils.toggleButtonById("musicButtonOff","musicButton", {"onclick": "toggleMusic()"});
+        }
+    }
+
+}
 
 window.onload = function() {
     var reloading = sessionStorage.getItem("reloading");
@@ -1007,64 +1151,6 @@ window.onload = function() {
         document.getElementById("settingsWindowControls").style.display = "none";
     }
 }
-
-function ContorlsOnclick(id){
-    let rectangles = [
-        "AltRight","Backslash","Backspace","CapsLock","ControlLeft","ControlRight","Delete","End",
-        "Enter","Escape","Home","Insert","NumLock","PageDown","PageUp","Pause","PrintScreen","ScrollLock",
-        "ShiftLeft","ShiftRight","Space","Tab","AltLeft"
-    ];
-    document.getElementById(id).addEventListener("keyup", (event) => {
-        if (rectangles.includes(event.code)){
-            document.getElementById(id).style.backgroundImage="url(graphics/keyboard/eventcode/rectangle/" + event.code + ".png)";
-            document.getElementById(id).className = "keyboardRectangle"; 
-        } else {
-            document.getElementById(id).style.backgroundImage="url(graphics/keyboard/eventcode/" + event.code + ".png)";
-            document.getElementById(id).className = "keyboardSquare";
-        }
-        
-        switch(id){
-            case 'controlsUp':
-                mainGameParameters.controls.up = event.code;
-                break; 
-            case 'controlsDown':
-                mainGameParameters.controls.down = event.code;
-                break; 
-            case 'controlsLeft':
-                mainGameParameters.controls.left = event.code;
-                break;
-            case 'controlsRight':
-                mainGameParameters.controls.right = event.code;
-                break; 
-            case 'controlsRun':
-                mainGameParameters.controls.run = event.code;
-                break; 
-            case 'controlsDbg':
-                mainGameParameters.controls.debug = event.code;
-                break; 
-            case 'controlsMusic':
-                mainGameParameters.controls.muteMusic = event.code;
-                mainGame.toggleMusic();
-                break;
-            case 'controlsSound':
-                mainGameParameters.controls.muteSound = event.code;
-                mainGame.toggleSoundEffects();
-                break; 
-            case 'controlsFullscreen':
-                mainGameParameters.controls.fullScreen = event.code;
-                break; 
-            default:
-                console.log("Invalid id", id);
-        }
-        
-    });
-}
-
-function startButtonOnclick() {
-    document.getElementById("loadingScreen").style.display = "none";
-    mainGameScene.audio.chooseWindow.play();
-    mainGameScene.audio.chooseWindow.volume = 0.5;
-    }
 
 function settingsButtonOnGameOverOnclick(){
     sessionStorage.setItem("reloading", "true");
@@ -1105,49 +1191,8 @@ function hideSettingsButton() {
     setTimeout(hide,500)
 }
 
-function toggleMusic(){
-    mainGame.toggleMusic();
-
-}
-
-function toggleSoundEffects(){
-    mainGame.toggleSoundEffects();
-}
-
-function settingsFullScreen(){
-    mainGame.toggleFullscreen();
-}
-
-function changeMusicVolume(){
-    let musicValue = document.getElementById("musicRange").value;
-    mainGameScene.audio.mainTheme.volume = musicValue/100;
-    mainGameScene.audio.chooseWindow.volume = musicValue/100;
-    if (musicValue==0){
-        utils.toggleButtonById("musicButton", "musicButtonOff", {"onclick": "toggleMusic()"});
-    } else {
-        utils.toggleButtonById("musicButtonOff","musicButton", {"onclick": "toggleMusic()"});
-    }
-}
-
-function changeSoundEffectsVolume(){
-    let musicValue = document.getElementById("soundRange").value;
-    for (let object of mainGameScene.objects){
-        if (object.type == "prey"){
-            object.sound.volume = musicValue/100;
-        } else if (object.type == "predator"){
-            object.sound.volume = musicValue/100;
-            object.sound2.volume = musicValue/100;
-        }
-    }
-    if (musicValue==0){
-        utils.toggleButtonById("soundEffectsButton", "soundEffectsButtonOff",  {"onclick": "toggleSoundEffects()"});
-    } else {
-        utils.toggleButtonById("soundEffectsButtonOff","soundEffectsButton", {"onclick": "toggleSoundEffects()"});
-    }
-}
-
 function controlsButton(){
-    document.getElementById("settingsWindowControls").style.display = "block";
+    document.getElementById("settingsWindowControls").style.display = "flex";
 }
 
 function goBackSettingsWindowOptions(){
@@ -1172,10 +1217,6 @@ function xSettingsWindowControls() {
     document.getElementById("settingsWindow").style.display = "none";
     document.getElementById("settingsWindowControls").style.display = "none";
 }
-
-document.getElementById("maincanvas").addEventListener("mousemove", (e) => {
-    mainGame.handleMouseMove(e)
-});
 
 const catChooserScene = { 
     camera : {
@@ -1287,31 +1328,12 @@ const choosingWindowGames = [
     ),
 ];
 
+const choosingWindow = document.getElementById("choosingWindow");
+
 function choosingWindowExit() {
     choosingWindow.style.display = "none";
     mainGameScene.audio.chooseWindow.pause();
     mainGameScene.audio.mainTheme.play();
     mainGameScene.audio.mainTheme.volume = 0.5;
 
-};
-
-const choosingWindow = document.getElementById("choosingWindow");
-document.getElementById("chooseCatWhite").onclick = function() {
-    mainGame.chooseCat("white");
-    choosingWindowExit();
-};
-
-document.getElementById("chooseCatOrange").onclick = function() {
-    mainGame.chooseCat("orange");
-    choosingWindowExit();
-};
-
-document.getElementById("chooseCatBrown").onclick = function() {
-    mainGame.chooseCat("brown");
-    choosingWindowExit();
-};
-
-document.getElementById("chooseCatBlack").onclick = function() {
-    mainGame.chooseCat("black");
-    choosingWindowExit();
 };
