@@ -52,13 +52,13 @@
                 <canvas class="cat" id="chooseCatOrange"width="100" height="100"></canvas>
                 <canvas class="cat" id="chooseCatBrown"width="100" height="100"></canvas>
                 <canvas class="cat" id="chooseCatBlack"width="100" height="100"></canvas>
-                <button class="squareButton" id = "xButton" style="background: url(graphics/icojoy_icons/xiconpurple.png); background-size: 36px;" onclick="choosingWindowExit()"></button>
+                <button class="squareButton xButton" id = "xButtonChoosing" onclick="choosingWindowExit()"></button>
             </div>
             <div class="bigWindowBorder settingsWindow" id="settingsWindow" style="display: none">
                 <button class="generalButton buttonBorder" id="settingsPlayButton" onclick="hideSettingsWindow()">Continue</button>
                 <button class="generalButton buttonBorder" id="settingsNewGameButton" onclick="takeHome()">New game</button>
                 <button class="generalButton buttonBorder" id="settingsOptionsButton" onclick="showOptions()">Options</button>
-                <button class="squareButton" id = "xButton" onclick="xSettingsWindow()"></button>
+                <button class="squareButton xButton" id = "xButtonSettings" onclick="xSettingsWindow()"></button>
             </div>
             <div class="bigWindowBorder settingsWindow" id="settingsWindowOptions" style="display: none">
                 <p id="settingsBigText">Audio</p>
@@ -76,25 +76,13 @@
                 </label>
                 <br>
                 <button class="generalButton buttonBorder" id="settingsKeyboard" onclick="controlsButton()">Controls</button><br>
-                <button class="squareButton" id = "backButton" onclick="goBackSettingsWindowOptions()"></button>
-                <button class="squareButton" id = "xButton" onclick="xSettingsWindowOptions()"></button>
+                <button class="squareButton backButton" id = "backButtonOptions" onclick="goBackSettingsWindowOptions()"></button>
+                <button class="squareButton xButton" id = "xButtonOptions" onclick="xSettingsWindowOptions()"></button>
             </div>
             <div class="bigWindowBorder settingsWindow" id="settingsWindowControls">
+                <span id="controlsHeader">CLICK TO CHANGE:</span>
                 <div id="wrapperLeft">
-                    <p style="margin-top: 2%; margin-bottom: 2%;">MOVE:</p>
-                    <button class="keyboardSquare" id="controlsUp" ></button><br>
-                    <button class="keyboardSquare" id="controlsLeft" ></button>
-                    <button class="keyboardSquare" id="controlsDown" ></button>
-                    <button class="keyboardSquare" id="controlsRight" ></button>
-                    
-                    <span>RUN:</span>
-                    <button class="keyboardRectangle" id="controlsRun" ></button><br>
-                    <span>DEBUG MODE:</span>
-                    <button class="keyboardSquare" id="controlsDbg" ></button>
-                </div>
-
-                <div id="wrapperRight">
-                    <p style="margin-top: 10%; margin-bottom: 2%;">MUTE</p>
+                    <span style="margin-top: 19%; margin-bottom: 0%; display: inline-block;">MUTE</span><br>
                     <span style="margin-left: 20%;">MUSIC:</span>
                     <button class="keyboardSquare" id="controlsMusic" ></button><br>
                     <span style="margin-left: 20%;">SOUND EFF.:</span>
@@ -102,10 +90,22 @@
                     <br>
                     <span>FULLSCREEN:</span>
                     <button class="keyboardSquare" id="controlsFullscreen"></button><br>
-
                 </div>
-                <button class="squareButton" id = "backButton" onclick="goBackSettingsWindowControls()"></button>
-                <button class="squareButton" id = "xButton" onclick="xSettingsWindowControls()"></button>
+
+                <div id="wrapperRight">
+                    <p style="margin-top: 19%; margin-bottom: 2%;">MOVE:</p>
+                    <button class="keyboardSquare" id="controlsUp" ></button><br>
+                    <button class="keyboardSquare" id="controlsLeft" ></button>
+                    <button class="keyboardSquare" id="controlsDown" ></button>
+                    <button class="keyboardSquare" id="controlsRight" ></button>
+                    <br>
+                    <span>RUN:</span>
+                    <button class="keyboardRectangle" id="controlsRun" ></button><br>
+                    <span>DEBUG MODE:</span>
+                    <button class="keyboardSquare" id="controlsDbg" ></button>
+                </div>
+                <button class="squareButton backButton" id = "backButtonControls" onclick="goBackSettingsWindowControls()"></button>
+                <button class="squareButton xButton" id = "xButtonControls" onclick="xSettingsWindowControls()"></button>
             </div>
             <div class="noGameScreen" id="gameOver" style="display: none">
                 <div class="cursor typewriter-animation" >GAME OVER</div>
